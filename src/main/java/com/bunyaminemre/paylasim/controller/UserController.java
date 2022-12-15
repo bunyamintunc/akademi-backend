@@ -33,4 +33,9 @@ public class UserController {
     public User getUserById(@PathVariable("id") Long id){
         return userService.getById(id);
     }
+
+    @GetMapping("/getall")
+    public List<User> getAllUser(){
+        return userService.getListUser();
+    }
 }

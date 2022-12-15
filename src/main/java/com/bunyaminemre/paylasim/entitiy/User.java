@@ -1,5 +1,7 @@
 package com.bunyaminemre.paylasim.entitiy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,5 +32,9 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     Set<Role> roles;
 
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Post> comments;
 
 }
