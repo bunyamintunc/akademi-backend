@@ -8,4 +8,5 @@ public class PostDto {
     MultipartFile uploadFile;
     Long userId;
     String description;
+    Long ticketId;
 }
