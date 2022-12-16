@@ -1,6 +1,7 @@
 package com.bunyaminemre.paylasim.controller;
 
 import com.bunyaminemre.paylasim.dto.PostDto;
+import com.bunyaminemre.paylasim.entitiy.Post;
 import com.bunyaminemre.paylasim.repository.UserRepository;
 import com.bunyaminemre.paylasim.service.PostService;
 import lombok.AllArgsConstructor;
@@ -32,5 +33,10 @@ public class PostController {
     @GetMapping("/download/{postId}")
     public ResponseEntity<Resource> downloadFileOfPost(@PathVariable("postId") Long postId) throws Exception {
           return postService.downloadPostWithId(postId);
+    }
+
+    @GetMapping("/getbyticketid/{ticketId}")
+    public List<Post> getByTicket(@PathVariable("ticketId") Long ticketId){
+        return postService.getPostsByTicket(ticketId);
     }
 }

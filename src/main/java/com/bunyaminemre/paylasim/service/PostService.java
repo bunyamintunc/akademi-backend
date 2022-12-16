@@ -57,4 +57,9 @@ public class PostService {
                 .header(HttpHeaders.CONTENT_DISPOSITION,"post; filename\""+ post.getName()+"\"")
                 .body(new ByteArrayResource(post.getData()));
     }
+
+
+    public List<Post> getPostsByTicket(Long ticketId){
+        return postRepository.findByTickets_id(ticketId);
+    }
 }
