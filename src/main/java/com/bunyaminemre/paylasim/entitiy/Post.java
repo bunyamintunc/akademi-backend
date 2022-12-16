@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @Entity
@@ -29,4 +30,9 @@ public class Post {
     @JoinColumn(name = "user_id",nullable = false)
     @JsonIgnore
     private User user;
+
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Ticket> tickets;
 }

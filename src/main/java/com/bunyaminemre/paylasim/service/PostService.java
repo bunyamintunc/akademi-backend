@@ -5,6 +5,11 @@ import com.bunyaminemre.paylasim.entitiy.Post;
 import com.bunyaminemre.paylasim.repository.PostRepository;
 import com.bunyaminemre.paylasim.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,4 +44,10 @@ public class PostService {
         return newPost;
     }
 
+    public ResponseEntity<Resource> downloadPostWithId(Long postId) throws Exception {
+        Post post = postRepository.findById(postId).orElseThrow(()-> new Exception("post does not found"));
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(post.getFileType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION,"post; filename\""+ post.getName()+"\"")
+                .body(new ByteArrayResource(post.getData()));
+    }
 }

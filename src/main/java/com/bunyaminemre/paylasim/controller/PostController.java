@@ -5,6 +5,8 @@ import com.bunyaminemre.paylasim.repository.UserRepository;
 import com.bunyaminemre.paylasim.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,5 +27,10 @@ public class PostController {
 
 
         postService.savePost(postDto);
+    }
+
+    @GetMapping("/download/{postId}")
+    public ResponseEntity<Resource> downloadFileOfPost(@PathVariable("postId") Long postId) throws Exception {
+          return postService.downloadPostWithId(postId);
     }
 }
