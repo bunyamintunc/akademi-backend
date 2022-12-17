@@ -83,8 +83,7 @@
 		<scope>test</scope>
 	</dependency>
 
-
-	<dependency>
+		<dependency>
 		<groupId>org.junit.jupiter</groupId>
 		<artifactId>junit-jupiter-api</artifactId>
 		<version>5.7.2</version>
@@ -105,6 +104,13 @@
 		<version>5.7.2</version>
 		<scope>test</scope>
 	</dependency>
+
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+
+		</dependency>
+
 	</dependencies>
 
 	<build>

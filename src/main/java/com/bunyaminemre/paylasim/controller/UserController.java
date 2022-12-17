@@ -1,5 +1,7 @@
 package com.bunyaminemre.paylasim.controller;
 
+import com.bunyaminemre.paylasim.dto.requestDto.UserRequestDto;
+import com.bunyaminemre.paylasim.dto.resposeDto.UserResponseDto;
 import com.bunyaminemre.paylasim.entitiy.User;
 import com.bunyaminemre.paylasim.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +17,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public User createUser(@RequestBody User user){
-        return userService.saveUser(user);
+    public User createUser(@RequestBody UserRequestDto userDto){
+        return userService.saveUser(userDto);
     }
 
-    @GetMapping
-    public List<User> getUsers(){
+    @GetMapping("/getall")
+    public List<UserResponseDto> getUsers(){
         return userService.getListUser();
     }
 
@@ -34,8 +36,5 @@ public class UserController {
         return userService.getById(id);
     }
 
-    @GetMapping("/getall")
-    public List<User> getAllUser(){
-        return userService.getListUser();
-    }
+
 }

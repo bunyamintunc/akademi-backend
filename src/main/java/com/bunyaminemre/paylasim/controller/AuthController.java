@@ -3,7 +3,7 @@ package com.bunyaminemre.paylasim.controller;
 import com.bunyaminemre.paylasim.config.security.JwtTokenProvider;
 import com.bunyaminemre.paylasim.dto.LoginDto;
 import com.bunyaminemre.paylasim.dto.PasswordResetDto;
-import com.bunyaminemre.paylasim.dto.UserDto;
+import com.bunyaminemre.paylasim.dto.requestDto.UserRequestDto;
 import com.bunyaminemre.paylasim.service.AuthService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class AuthController {
     }
 
     @PostMapping("/singup")
-    public ResponseEntity<String> singUp(@RequestBody UserDto userDto) throws MessagingException {
+    public ResponseEntity<String> singUp(@RequestBody UserRequestDto userDto) throws MessagingException {
         return authService.singUp(userDto);
     }
 

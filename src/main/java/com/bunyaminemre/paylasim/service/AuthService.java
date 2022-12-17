@@ -1,7 +1,7 @@
 package com.bunyaminemre.paylasim.service;
 
 import com.bunyaminemre.paylasim.dto.PasswordResetDto;
-import com.bunyaminemre.paylasim.dto.UserDto;
+import com.bunyaminemre.paylasim.dto.requestDto.UserRequestDto;
 import com.bunyaminemre.paylasim.entitiy.NotificationEmail;
 import com.bunyaminemre.paylasim.entitiy.Role;
 import com.bunyaminemre.paylasim.entitiy.User;
@@ -23,7 +23,7 @@ public class AuthService {
 
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     @Autowired
     private VerificationTokenRepository tokenRepository;
@@ -34,8 +34,7 @@ public class AuthService {
     @Autowired
     private VerificationTokenRepository verificationTokenRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+
 
     @Autowired
     private RoleService roleService;
@@ -45,7 +44,7 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
 
 
-    public ResponseEntity<String> singUp(UserDto userDto) throws MessagingException {
+    public ResponseEntity<String> singUp(UserRequestDto userDto) throws MessagingException {
 
         List<User> isThereUser = userRepository.findByEmail(userDto.getEmail());
         if (isThereUser.size()>0){
@@ -62,7 +61,7 @@ public class AuthService {
                     .isActive(false)
                     .build();
             user.getRoles().add(role);
-            User newUser = userService.saveUser(user);
+            User newUser = userRepository.save(user);
             String token =  createVerificationToken(newUser);
 
        /*
@@ -100,7 +99,7 @@ public class AuthService {
         User user = verificationToken.getUser();
         if (user != null){
             user.setActive(true);
-            userService.saveUser(user);
+            userRepository.save(user);
         }
         return new ResponseEntity<>("doğrulama başarılı",HttpStatus.OK);
     }

@@ -35,6 +35,6 @@ public class User {
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     @JsonIgnore
-    private Set<Post> comments;
+    private Set<Post> posts;
 
 }
