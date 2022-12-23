@@ -3,7 +3,10 @@ package com.bunyaminemre.paylasim.controller;
 import com.bunyaminemre.paylasim.config.security.JwtTokenProvider;
 import com.bunyaminemre.paylasim.dto.LoginDto;
 import com.bunyaminemre.paylasim.dto.PasswordResetDto;
+import com.bunyaminemre.paylasim.dto.requestDto.ChangePasswordDto;
 import com.bunyaminemre.paylasim.dto.requestDto.UserRequestDto;
+import com.bunyaminemre.paylasim.dto.resposeDto.LoginResponseDto;
+import com.bunyaminemre.paylasim.dto.resposeDto.Message;
 import com.bunyaminemre.paylasim.service.AuthService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +22,6 @@ import javax.mail.MessagingException;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-
 
 
     private AuthService authService;
@@ -38,12 +40,14 @@ public class AuthController {
     }
 
     @PostMapping("/singup")
-    public ResponseEntity<String> singUp(@RequestBody UserRequestDto userDto) throws MessagingException {
-        return authService.singUp(userDto);
+    public Message singUp(@RequestBody UserRequestDto userDto) throws MessagingException {
+        Message message = new Message();
+        message.setValue( authService.singUp(userDto));
+        return  message;
     }
 
     @GetMapping("/verification/{token}")
-    public ResponseEntity<String> verification(@PathVariable("token") String token){
+    public String verification(@PathVariable("token") String token){
         return authService.verificationUser(token);
     }
 
@@ -63,15 +67,17 @@ public class AuthController {
      */
 
     @PostMapping("/login")
-    @ApiOperation(value = "User login method")
-    public String Login(@RequestBody LoginDto userDto){
+    public LoginResponseDto Login(@RequestBody LoginDto userDto){
 
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDto.getUsername(),userDto.getPassword());
         Authentication auth = authenticationManager.authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(auth);
 
         String jwtToken  = jwtTokenProvider.generateJwtToken(auth);
-        return "Bearer "+jwtToken;
+        LoginResponseDto response = new LoginResponseDto();
+        response.setJwt(jwtToken);
+        response.setName("deneme");
+        return response;
 
     }
 
@@ -80,9 +86,9 @@ public class AuthController {
         return   authService.resetPassword(resetDto);
     }
 
-    @GetMapping("/resetparola/{token}/{password}")
-    public ResponseEntity<String> resetPaswordWithToken(@PathVariable("token") String token,@PathVariable("password") String password){
-        return authService.resetPasswordWithToken(token,password);
+    @PostMapping("/changeparola")
+    public ResponseEntity<String> resetPaswordWithToken(@RequestBody ChangePasswordDto changePasswordDto){
+        return authService.resetPasswordWithToken(changePasswordDto);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.bunyaminemre.paylasim.service;
 
 import com.bunyaminemre.paylasim.dto.PasswordResetDto;
+import com.bunyaminemre.paylasim.dto.requestDto.ChangePasswordDto;
 import com.bunyaminemre.paylasim.dto.requestDto.UserRequestDto;
 import com.bunyaminemre.paylasim.entitiy.NotificationEmail;
 import com.bunyaminemre.paylasim.entitiy.Role;
@@ -44,11 +45,11 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
 
 
-    public ResponseEntity<String> singUp(UserRequestDto userDto) throws MessagingException {
+    public String singUp(UserRequestDto userDto) throws MessagingException {
 
         List<User> isThereUser = userRepository.findByEmail(userDto.getEmail());
         if (isThereUser.size()>0){
-            return new ResponseEntity<>("Email is already exist", HttpStatus.ALREADY_REPORTED);
+            return "Email is already exist";
         }else{
             Role role = roleService.findRoleByName("ANONİM");
             User user = User.builder()
@@ -82,7 +83,7 @@ public class AuthService {
 
             mailService.sendHtmlMessage(email);
 
-            return new  ResponseEntity<> ("you are sing up", HttpStatus.OK);
+            return "you are sing up";
         }
 
     }
@@ -94,14 +95,14 @@ public class AuthService {
         return uuid;
     }
 
-    public ResponseEntity<String> verificationUser(String token) {
+    public String verificationUser(String token) {
         VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
         User user = verificationToken.getUser();
         if (user != null){
             user.setActive(true);
             userRepository.save(user);
         }
-        return new ResponseEntity<>("doğrulama başarılı",HttpStatus.OK);
+        return "doğrulama başarılı";
     }
 
     public ResponseEntity<String> resetPassword(PasswordResetDto resetDto) throws MessagingException {
@@ -115,7 +116,7 @@ public class AuthService {
             //email.setLink("http://localhost:8080/auth/verification/"+token);
             Map<String, Object> properties = new HashMap<>();
             properties.put("name",user.getName());
-            properties.put("link","http://localhost:8080/auth/resetparola/"+token+"/deneme");
+            properties.put("link","http://localhost:3000/reset-password-page/"+token);
             email.setProperties(properties);
             email.setTemplate("mailTemplate.html");
 
@@ -127,11 +128,11 @@ public class AuthService {
         }
     }
 
-    public ResponseEntity<String> resetPasswordWithToken(String token, String password) {
-        VerificationToken isThereToken = verificationTokenRepository.findByToken(token);
+    public ResponseEntity<String> resetPasswordWithToken(ChangePasswordDto changePasswordDto) {
+        VerificationToken isThereToken = verificationTokenRepository.findByToken(changePasswordDto.getToken());
         if (isThereToken != null){
             User user = isThereToken.getUser();
-            user.setPassword(passwordEncoder.encode(password));
+            user.setPassword(passwordEncoder.encode(changePasswordDto.getNewPassword()));
             userRepository.save(user);
             return new ResponseEntity<>("Şifreniz Değiştirildi",HttpStatus.OK);
         }
