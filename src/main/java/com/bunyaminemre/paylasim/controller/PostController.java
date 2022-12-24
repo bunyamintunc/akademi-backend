@@ -26,7 +26,7 @@ public class PostController {
     @PostMapping("/upload")
     public void uploadPost(@ModelAttribute PostDto postDto) throws IOException {
 
-
+        System.out.println(postDto.getDescription());
         postService.savePost(postDto);
     }
 
@@ -38,5 +38,10 @@ public class PostController {
     @GetMapping("/getbyticketid/{ticketId}")
     public List<Post> getByTicket(@PathVariable("ticketId") Long ticketId){
         return postService.getPostsByTicket(ticketId);
+    }
+
+    @GetMapping("/getall")
+    public List<Post> getAllPost(){
+        return postService.getPostList();
     }
 }

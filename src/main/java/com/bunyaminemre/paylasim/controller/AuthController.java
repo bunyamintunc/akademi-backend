@@ -7,7 +7,9 @@ import com.bunyaminemre.paylasim.dto.requestDto.ChangePasswordDto;
 import com.bunyaminemre.paylasim.dto.requestDto.UserRequestDto;
 import com.bunyaminemre.paylasim.dto.resposeDto.LoginResponseDto;
 import com.bunyaminemre.paylasim.dto.resposeDto.Message;
+import com.bunyaminemre.paylasim.entitiy.User;
 import com.bunyaminemre.paylasim.service.AuthService;
+import com.bunyaminemre.paylasim.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,14 +31,17 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
     private JwtTokenProvider jwtTokenProvider;
 
+    private UserService userService;
+
 
 
 
     @Autowired
-    public AuthController(AuthService authService, AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
+    public AuthController(AuthService authService, AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider,UserService userService) {
         this.authService = authService;
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.userService = userService;
     }
 
     @PostMapping("/singup")
@@ -75,8 +80,11 @@ public class AuthController {
 
         String jwtToken  = jwtTokenProvider.generateJwtToken(auth);
         LoginResponseDto response = new LoginResponseDto();
+        User user = userService.getUserByName(userDto.getUsername());
         response.setJwt(jwtToken);
-        response.setName("deneme");
+        response.setName(user.getName());
+        response.setSurname(user.surname);
+        response.setId(user.getId());
         return response;
 
     }

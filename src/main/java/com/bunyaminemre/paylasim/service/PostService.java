@@ -62,4 +62,8 @@ public class PostService {
     public List<Post> getPostsByTicket(Long ticketId){
         return postRepository.findByTickets_id(ticketId);
     }
+
+    public List<Post> getPostList() {
+        return postRepository.findAll();
+    }
 }
