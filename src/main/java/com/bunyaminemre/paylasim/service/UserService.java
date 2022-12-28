@@ -39,9 +39,10 @@ public class UserService {
                 .email(userDto.getEmail())
                 .isActive(false)
                 .roles(new HashSet<Role>())
+                .username("@"+userDto.getName()+userDto.getSurname())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .posts(new HashSet<Post>()).build();
-        Role role = roleRepository.findById(userDto.getRoleId()).orElse(null);
+        Role role = roleRepository.findById(1L).orElse(null);
         user.getRoles().add(role);
         return userRepository.save(user);
     }

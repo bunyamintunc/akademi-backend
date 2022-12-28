@@ -4,24 +4,29 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+
 import javax.persistence.*;
 import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Data
 @Entity
-@Getter
-@Setter
-@ToString
 @Builder
+@Table(name="_user")
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="_user")
 public class User {
 
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
+
     public String name;
     public String email;
     public String surname;

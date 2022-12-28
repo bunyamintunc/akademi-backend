@@ -43,16 +43,21 @@ public class PostService {
 
     public Post createFileOfPost(PostDto postDto) throws IOException {
         MultipartFile fileOfPost = postDto.getUploadFile();
+
         User user = userRepository.findById(postDto.getUserId()).orElse(null);
         Ticket ticket = ticketRepository.findById(postDto.getTicketId()).orElse(null);
+
         String fileName = StringUtils.cleanPath(fileOfPost.getName());
         Post newPost = Post.builder().tickets(new HashSet<>()).name(fileName).description(postDto.getDescription()).fileType(fileOfPost.getContentType()).data(fileOfPost.getBytes()).user(user).build();
         newPost.getTickets().add(ticket);
+
         return newPost;
     }
 
     public ResponseEntity<Resource> downloadPostWithId(Long postId) throws Exception {
+
         Post post = postRepository.findById(postId).orElseThrow(()-> new Exception("post does not found"));
+
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(post.getFileType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION,"post; filename\""+ post.getName()+"\"")
                 .body(new ByteArrayResource(post.getData()));
