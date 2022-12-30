@@ -81,6 +81,7 @@ public class UserService {
             dto.setEmail(user.getEmail());
             dto.setId(user.getId());
             dto.setSurname(user.getSurname());
+            dto.setStatus(String.valueOf(user.isActive()));
             userDtoList.add(dto);
         }
        return userDtoList;

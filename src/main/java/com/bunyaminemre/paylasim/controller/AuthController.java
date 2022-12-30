@@ -7,9 +7,11 @@ import com.bunyaminemre.paylasim.dto.requestDto.ChangePasswordDto;
 import com.bunyaminemre.paylasim.dto.requestDto.UserRequestDto;
 import com.bunyaminemre.paylasim.dto.resposeDto.LoginResponseDto;
 import com.bunyaminemre.paylasim.dto.resposeDto.Message;
+import com.bunyaminemre.paylasim.entitiy.Role;
 import com.bunyaminemre.paylasim.entitiy.User;
 import com.bunyaminemre.paylasim.service.AuthService;
 import com.bunyaminemre.paylasim.service.UserService;
+import com.sun.tools.jconsole.JConsoleContext;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/auth")
@@ -86,6 +89,7 @@ public class AuthController {
         response.setSurname(user.surname);
         response.setId(user.getId());
         response.setRoles(new ArrayList<>());
+
         for (Role e: user.getRoles()){
             response.getRoles().add(e);
         }

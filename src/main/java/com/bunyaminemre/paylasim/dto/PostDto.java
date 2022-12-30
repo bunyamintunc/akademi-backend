@@ -9,4 +9,5 @@ public class PostDto {
     Long userId;
     String description;
     Long ticketId;
+    String postName;
 }

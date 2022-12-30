@@ -50,6 +50,7 @@ public class PostService {
         String fileName = StringUtils.cleanPath(fileOfPost.getName());
         Post newPost = Post.builder().tickets(new HashSet<>()).name(fileName).description(postDto.getDescription()).fileType(fileOfPost.getContentType()).data(fileOfPost.getBytes()).user(user).build();
         newPost.getTickets().add(ticket);
+        newPost.setPostName("yeni postumuz");
 
         return newPost;
     }

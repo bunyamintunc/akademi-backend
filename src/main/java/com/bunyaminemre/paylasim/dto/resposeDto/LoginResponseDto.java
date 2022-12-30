@@ -3,6 +3,8 @@ import com.bunyaminemre.paylasim.entitiy.Role;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class LoginResponseDto {
 
@@ -10,5 +12,7 @@ public class LoginResponseDto {
     String jwt;
     String name;
     String surname;
-    List<Role>  roles;
+    List<Role> roles;
+
+
 }

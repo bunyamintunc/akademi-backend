@@ -23,6 +23,8 @@ public class Post {
     private String fileType;
     private String description;
 
+    private String postName;
+
     @Lob
     private byte[] data;
 
