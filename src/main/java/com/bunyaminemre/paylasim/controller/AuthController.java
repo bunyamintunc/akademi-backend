@@ -89,6 +89,7 @@ public class AuthController {
         response.setSurname(user.surname);
         response.setId(user.getId());
         response.setRoles(new ArrayList<>());
+        response.setStatus(user.isActive());
 
         for (Role e: user.getRoles()){
             response.getRoles().add(e);

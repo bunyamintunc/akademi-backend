@@ -42,7 +42,7 @@ public class UserService {
                 .username("@"+userDto.getName()+userDto.getSurname())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .posts(new HashSet<Post>()).build();
-        Role role = roleRepository.findById(1L).orElse(null);
+        Role role = roleRepository.findById(2L).orElse(null);
         user.getRoles().add(role);
         return userRepository.save(user);
     }

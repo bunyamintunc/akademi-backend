@@ -14,5 +14,7 @@ public class LoginResponseDto {
     String surname;
     List<Role> roles;
 
+    Boolean status;
+
 
 }
